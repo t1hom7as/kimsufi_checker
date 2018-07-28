@@ -2,4 +2,5 @@
 
 A simple script to check for kimsufi server availablity.
 
-Written in Python
+Written in Python3.
+
