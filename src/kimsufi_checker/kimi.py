@@ -1,6 +1,7 @@
+import argparse
 import sys
 import time
-import argparse
+
 import requests
 
 SERVER_DICT = {
@@ -29,21 +30,20 @@ class Colours:
 
 
 class Checker:
-
     def __init__(self):
         self.server = False
         self.server_choice = False
 
         parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
         parser.add_argument('ks', help='Available options:\nks1\nks2\nks3\nks4\n'
-            'ks5\nks6\nks7\nks8\nks9\nks10\nks11\nks12\n')
+                            'ks5\nks6\nks7\nks8\nks9\nks10\nks11\nks12\n')
         args = parser.parse_args()
         self.selection = args.ks
 
         if self.selection not in SERVER_DICT.keys():
             sys.exit(f'{Colours.yellow}Invalid option{Colours.reset}')
-    
-    def main(self):
+
+    def main(self):    # noqa: C901
         for k, v in SERVER_DICT.items():
             if k == self.selection:
                 self.server_choice = v
@@ -59,19 +59,23 @@ class Checker:
                     output = data['answer']['availability']
             except requests.RequestException:
                 sys.exit(f'{Colours.yellow}Unable to connect to OVH{Colours.reset}')
-            for x in output:
-                if self.server_choice == x['reference']:
-                    for y in x['zones']:
-                        zone = y['zone']
-                        if y['availability'] != 'unavailable':
-                                self.server = True
-                                print(f'{Colours.green}Server available in: {zone}{Colours.reset}')
-                                print(f'https://www.kimsufi.com/uk/order/kimsufi.xml?reference={self.server_choice}\n')
-            if not self.server:
-                print(f'{Colours.red}No servers available{Colours.reset}')
-                time.sleep(5)
+            except (ValueError, KeyError):
+                sys.exit(f'{Colours.yellow}Inavlid response from OVH{Colours.reset}')
             else:
-                break
+                for x in output:
+                    if self.server_choice == x['reference']:
+                        for y in x['zones']:
+                            zone = y['zone']
+                            if y['availability'] != 'unavailable':
+                                    self.server = True
+                                    print(f'{Colours.green}Server available in: {zone}{Colours.reset}')
+                                    print(f'https://www.kimsufi.com/uk/order/kimsufi.xml?reference={self.server_choice}\n')  # noqa: E501
+                if not self.server:
+                    print(f'{Colours.red}No servers available{Colours.reset} {time.ctime()}')
+                    time.sleep(20)
+                else:
+                    break
 
-if __name__ == "__main__":
+
+def main():
     Checker().main()
