@@ -1,8 +1,7 @@
-# Kimsufi Checker ![CI status](https://img.shields.io/badge/build-passing-brightgreen.svg)
-
+# Kimsufi Checker [![Build Status](https://travis-ci.org/t1hom7as/kimsufi_checker.svg?branch=master)](https://travis-ci.org/t1hom7as/kimsufi_checker)
 A simple package to check for kimsufi server availablity.
 
-Written in Python3.
+Requires python3.6 or above.
 
 Currently only available for servers located in France.
 
@@ -22,7 +21,7 @@ $ pip install dist/kimsufi-checker-0.1.0.tar.gz
 $ kimsufi-checker <args>
 ```
 
-## Available arguments:
+## Available arguments
 ```
 kimsufi-checker <arg>
 - ks1
