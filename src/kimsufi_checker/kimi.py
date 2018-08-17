@@ -19,7 +19,8 @@ SERVER_DICT = {
     'ks12': '1801sk23'
 }
 
-URL = 'http://ws.ovh.com/dedicated/r2/ws.dispatcher/getAvailability2'
+URL = 'https://www.ovh.com/engine/api/dedicated/server/availabilities?country=eu'
+TIME = 0
 
 
 class Colours:
@@ -44,6 +45,7 @@ class Checker:
             sys.exit(f'{Colours.yellow}Invalid option{Colours.reset}')
 
     def main(self):    # noqa: C901
+        print(f'Probing every {TIME} seconds')
         for k, v in SERVER_DICT.items():
             if k == self.selection:
                 self.server_choice = v
@@ -56,23 +58,21 @@ class Checker:
                 r = requests.get(URL)
                 if r.status_code == 200:
                     data = r.json()
-                    output = data['answer']['availability']
             except requests.RequestException:
                 sys.exit(f'{Colours.yellow}Unable to connect to OVH{Colours.reset}')
             except (ValueError, KeyError):
                 sys.exit(f'{Colours.yellow}Inavlid response from OVH{Colours.reset}')
             else:
-                for x in output:
-                    if self.server_choice == x['reference']:
-                        for y in x['zones']:
-                            zone = y['zone']
+                for x in data:
+                    if self.server_choice in x['hardware']:
+                        for y in x['datacenters']:
                             if y['availability'] != 'unavailable':
-                                    self.server = True
-                                    print(f'{Colours.green}Server available in: {zone}{Colours.reset}')
-                                    print(f'https://www.kimsufi.com/uk/order/kimsufi.xml?reference={self.server_choice}\n')  # noqa: E501
+                                self.server = True
+                                print(f'{Colours.green}Server available in: {y["datacenter"]}{Colours.reset}')
+                                print(f'https://www.kimsufi.com/uk/order/kimsufi.xml?reference={self.server_choice}\n')  # noqa: E501¬
                 if not self.server:
                     print(f'{Colours.red}No servers available{Colours.reset} {time.ctime()}')
-                    time.sleep(20)
+                    time.sleep(TIME)
                 else:
                     break
 
