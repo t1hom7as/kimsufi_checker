@@ -2,7 +2,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 setup(name='kimsufi-checker',
-      version='0.1.0',
+      version='0.2.0',
       description='Checks for kimsufi availability',
       author='Tom Creasey',
       author_email='NA',
