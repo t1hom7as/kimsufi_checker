@@ -4,6 +4,16 @@ PACKAGE = kimsufi-checker
 # Default python: 3.6
 PY = py36
 
+# prompt_example> make test PY=py35 OPTIONS="-- -s"
+.PHONY: test
+test:
+	@tox -e $(PY)
+
+
+.PHONY: coverage
+coverage:
+	@tox -e coverage
+
 
 .PHONY: isort
 isort:

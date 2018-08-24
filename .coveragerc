@@ -1,0 +1,15 @@
+[run]
+branch = True
+source =
+    kimsufi_checker
+
+
+[paths]
+source =
+   src/kimsufi_checker
+   .tox/*/lib/python*/site-packages/kimsufi_checker
+
+
+[report]
+show_missing = True
+precision = 2
