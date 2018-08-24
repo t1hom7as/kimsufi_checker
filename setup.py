@@ -2,9 +2,9 @@ from setuptools import find_packages
 from setuptools import setup
 
 setup(name='kimsufi-checker',
-      version='0.1.0',
+      version='1.0.0',
       description='Checks for kimsufi availability',
-      author='Tom Creasey',
+      author='t1hom7as',
       author_email='NA',
       keywords='server',
       license='Apache 2.0',
