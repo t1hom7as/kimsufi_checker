@@ -20,7 +20,7 @@ SERVER_DICT = {
 }
 
 URL = 'https://www.ovh.com/engine/api/dedicated/server/availabilities?country=eu'
-TIME = 0
+TIME = 8
 
 
 class KimiException(Exception):
